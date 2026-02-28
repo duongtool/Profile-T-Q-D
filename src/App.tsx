@@ -1,0 +1,368 @@
+import React, { useEffect, useState } from 'react';
+import { 
+  Terminal, 
+  Languages, 
+  Zap, 
+  Github, 
+  Code, 
+  Cpu, 
+  MessageCircle, 
+  ArrowUpRight, 
+  Code2, 
+  Layers, 
+  Database, 
+  Mail, 
+  Facebook, 
+  Instagram, 
+  Linkedin 
+} from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const currentYear = new Date().getFullYear();
+
+const translations = {
+  vi: {
+    nav_about: "GIỚI THIỆU",
+    nav_projects: "DỰ ÁN",
+    nav_skills: "KỸ NĂNG",
+    hero_badge: `NHÀ PHÁT TRIỂN TƯƠNG LAI`,
+    hero_desc: 'Học sinh lớp 11 kiến tạo tương lai với <span class="text-white font-semibold border-b border-emerald-500/30">Python</span> và sức mạnh của <span class="text-white font-semibold border-b border-blue-500/30">API</span>.',
+    hero_cta_projects: 'Khám phá dự án',
+    project_title: 'Dự án <span class="text-emerald-500">Masterpiece</span>',
+    project_subtitle: `Thành công rực rỡ trong năm ${currentYear}`,
+    project_status: "Status: Completed",
+    project_desc: 'Một siêu phẩm tự động hóa được tinh chỉnh tối ưu. Hệ thống xử lý hàng ngàn yêu cầu mỗi giây, tích hợp <span class="text-white font-bold">AI thông minh</span> để phản hồi và quản lý cộng đồng Zalo một cách hoàn hảo.',
+    project_link: 'Xem mã nguồn',
+    skills_title: 'Vũ khí <span class="text-blue-500">Công nghệ</span>',
+    skills_subtitle: "Hệ thống kỹ năng được nâng cấp tối đa",
+    skill_1_title: "Advanced Python",
+    skill_1_desc: "Làm chủ các thư viện phức tạp, tối ưu hóa hiệu năng và kiến trúc mã nguồn sạch.",
+    skill_2_title: "API Architect",
+    skill_2_desc: "Thiết kế và triển khai các hệ thống API RESTful quy mô lớn, bảo mật và tin cậy.",
+    skill_3_title: "Data Engineering",
+    skill_3_desc: "Xử lý và phân tích dữ liệu lớn, quản trị cơ sở dữ liệu NoSQL chuyên nghiệp.",
+    contact_title: 'Cùng tạo nên <br/><span class="text-emerald-500">Kỳ tích</span>',
+    contact_desc: "Bạn có ý tưởng? Tôi có giải pháp. Hãy kết nối để biến những dòng code thành giá trị thực tế.",
+    contact_cta: "Gửi Tín Hiệu",
+    footer_copy: `© ${currentYear} TRÀ QUÍ DƯƠNG`
+  },
+  en: {
+    nav_about: "ABOUT",
+    nav_projects: "PROJECTS",
+    nav_skills: "SKILLS",
+    hero_badge: `FUTURE DEVELOPER`,
+    hero_desc: 'Grade 11 student shaping the future with <span class="text-white font-semibold border-b border-emerald-500/30">Python</span> and the power of <span class="text-white font-semibold border-b border-blue-500/30">API</span>.',
+    hero_cta_projects: 'Explore Projects',
+    project_title: '<span class="text-emerald-500">Masterpiece</span> Project',
+    project_subtitle: `Outstanding success in ${currentYear}`,
+    project_status: "Status: Completed",
+    project_desc: 'A finely tuned automation masterpiece. Processing thousands of requests per second, integrated with <span class="text-white font-bold">Smart AI</span> for perfect Zalo community management.',
+    project_link: 'View Source',
+    skills_title: 'Tech <span class="text-blue-500">Arsenal</span>',
+    skills_subtitle: "Maxed out skill system",
+    skill_1_title: "Advanced Python",
+    skill_1_desc: "Mastering complex libraries, optimizing performance, and clean code architecture.",
+    skill_2_title: "API Architect",
+    skill_2_desc: "Designing and deploying large-scale, secure, and reliable RESTful API systems.",
+    skill_3_title: "Data Engineering",
+    skill_3_desc: "Professional big data processing, analysis, and NoSQL database management.",
+    contact_title: 'Let\'s Create <br/><span class="text-emerald-500">Miracles</span>',
+    contact_desc: "Have an idea? I have the solution. Let's connect to turn code into real value.",
+    contact_cta: "Send Signal",
+    footer_copy: `© ${currentYear} TRA QUI DUONG`
+  }
+};
+
+function App() {
+  const [lang, setLang] = useState<'vi' | 'en'>('vi');
+  const t = translations[lang];
+
+  useEffect(() => {
+    gsap.to("#progress-bar", {
+      width: "100%",
+      ease: "none",
+      scrollTrigger: { scrub: 0.3 }
+    });
+
+    gsap.from(".gsap-hero-item", { 
+      y: 100, 
+      opacity: 0, 
+      duration: 1, 
+      stagger: 0.1, 
+      ease: "expo.out",
+      delay: 0.5
+    });
+
+    gsap.utils.toArray(".gsap-reveal").forEach((el: any) => {
+      gsap.from(el, {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    const magneticElements = document.querySelectorAll('.magnetic');
+    magneticElements.forEach((el: any) => {
+      const move = (e: MouseEvent) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
+      };
+      const leave = () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+      };
+      el.addEventListener('mousemove', move);
+      el.addEventListener('mouseleave', leave);
+    });
+
+    const cards = document.querySelectorAll('.perspective-card');
+    cards.forEach((card: any) => {
+      const inner = card.querySelector('.perspective-inner');
+      const move = (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(inner, {
+          rotateY: x * 10,
+          rotateX: -y * 10,
+          duration: 0.5,
+          ease: "power2.out"
+        });
+      };
+      const leave = () => {
+        gsap.to(inner, { rotateY: 0, rotateX: 0, duration: 0.8, ease: "power3.out" });
+      };
+      card.addEventListener('mousemove', move);
+      card.addEventListener('mouseleave', leave);
+    });
+
+    const anchors = document.querySelectorAll('a[href^="#"]');
+    anchors.forEach((anchor: any) => {
+      anchor.addEventListener('click', (e: MouseEvent) => {
+        const href = anchor.getAttribute('href');
+        if (href === '#') return;
+        
+        e.preventDefault();
+        try {
+          const target = document.querySelector(href);
+          if (target) {
+            window.scrollTo({
+              top: (target as HTMLElement).offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        } catch (err) {
+          console.warn('Invalid selector:', href);
+        }
+      });
+    });
+  }, []);
+
+  const toggleLang = () => {
+    gsap.to('body', { opacity: 0, y: 10, duration: 0.3, onComplete: () => {
+      setLang(prev => prev === 'vi' ? 'en' : 'vi');
+      gsap.to('body', { opacity: 1, y: 0, duration: 0.4 });
+    }});
+  };
+
+  return (
+    <div className="bg-grid min-h-screen selection:bg-emerald-500 selection:text-black text-zinc-100">
+      {/* Scroll Progress Bar */}
+      <div id="progress-bar" className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-emerald-500 to-blue-500 z-[10000] w-0"></div>
+
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] rounded-full bg-emerald-500/5 blur-[180px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-500/5 blur-[180px] animate-pulse" style={{ animationDelay: '-4s' }}></div>
+      </div>
+
+      <nav className="fixed top-0 w-full z-50 glass border-b-0 bg-black/40 backdrop-blur-2xl">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3 group cursor-pointer magnetic">
+            <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000">
+              <Terminal className="w-6 h-6 text-black" />
+            </div>
+            <span className="font-mono font-bold tracking-tighter text-xl">T Q D</span>
+          </div>
+          
+          <div className="flex items-center gap-6 md:gap-12">
+            <div className="hidden lg:flex items-center gap-12 text-xs font-bold tracking-[0.2em] text-zinc-500">
+              <a href="#about" className="hover:text-emerald-400 transition-all">{t.nav_about}</a>
+              <a href="#projects" className="hover:text-emerald-400 transition-all">{t.nav_projects}</a>
+              <a href="#skills" className="hover:text-emerald-400 transition-all">{t.nav_skills}</a>
+            </div>
+            
+            <button 
+              onClick={toggleLang}
+              className="glass px-4 py-2 rounded-full text-[10px] font-black tracking-widest flex items-center gap-2 hover:bg-emerald-500 hover:text-black transition-all group"
+            >
+              <Languages className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+              <span>{lang === 'vi' ? 'EN' : 'VI'}</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    
+      <section className="pt-40 pb-20 px-6 max-w-7xl mx-auto min-h-screen flex flex-col justify-center">
+        <div className="flex flex-col lg:flex-row items-center gap-20">
+          <div className="flex-1 text-center lg:text-left">
+            <div className="gsap-hero-item inline-flex items-center gap-3 px-4 py-2 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-[10px] font-mono mb-10 tracking-[0.3em] uppercase">
+              {t.hero_badge}
+            </div>
+            
+            <h1 className="gsap-hero-item text-4xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter mb-6 sm:mb-10 leading-tight sm:leading-[0.8] uppercase">
+              TRA QUI <br className="hidden sm:block" />
+              <span className="gradient-text">DUONG</span>
+            </h1>
+            
+            <p 
+              className="gsap-hero-item text-lg sm:text-xl md:text-2xl lg:text-3xl text-zinc-500 max-w-2xl mb-10 sm:mb-14 leading-relaxed font-light mx-auto lg:mx-0 px-4 sm:px-0"
+              dangerouslySetInnerHTML={{ __html: t.hero_desc }}
+            />
+
+            <div className="gsap-hero-item flex flex-wrap justify-center lg:justify-start gap-6">
+              <a href="#projects" className="magnetic px-10 py-6 bg-emerald-500 text-black font-black rounded-2xl flex items-center gap-3 glow-emerald hover:shadow-[0_0_60px_-10px_rgba(16,185,129,0.6)] transition-all uppercase tracking-widest text-sm">
+                {t.hero_cta_projects} <Zap className="w-5 h-5" />
+              </a>
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="magnetic px-10 py-6 glass text-white font-black rounded-2xl flex items-center gap-3 hover:bg-white/5 transition-all uppercase tracking-widest text-sm">
+                <Github className="w-5 h-5" /> GitHub
+              </a>
+            </div>
+          </div>
+     
+          <div className="gsap-hero-item relative group mt-20 lg:mt-0">
+            <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-[120px] group-hover:bg-emerald-500/40 transition-all duration-1000"></div>
+            <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px] rounded-[4rem] p-4 glass overflow-hidden animate-float-alt">
+              <img 
+                src="https://picsum.photos/seed/duong-2026/1000/1000" 
+                alt="Tra Qui Duong 2026" 
+                className="w-full h-full object-cover rounded-[3rem] grayscale hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+              />
+              
+              <div className="absolute top-12 right-12 glass p-5 rounded-3xl animate-bounce" style={{ animationDuration: '3s' }}>
+                <Code className="w-8 h-8 text-emerald-400" />
+              </div>
+              <div className="absolute bottom-24 left-12 glass p-5 rounded-3xl animate-bounce" style={{ animationDuration: '5s', animationDelay: '1s' }}>
+                <Cpu className="w-8 h-8 text-blue-400" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" className="py-20 sm:py-40 px-6 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 sm:mb-24 gap-6 sm:gap-8 gsap-reveal">
+          <div>
+            <h2 className="text-4xl sm:text-6xl md:text-8xl font-black mb-4 sm:mb-8 tracking-tighter uppercase" dangerouslySetInnerHTML={{ __html: t.project_title }} />
+            <p className="text-zinc-600 font-mono tracking-[0.2em] sm:tracking-[0.4em] uppercase text-[10px] sm:text-sm">{t.project_subtitle}</p>
+          </div>
+          <div className="h-[1px] flex-1 bg-white/5 mb-6 mx-12 hidden md:block"></div>
+        </div>
+        
+        <div className="gsap-reveal project-card glass p-6 sm:p-12 md:p-20 rounded-[2.5rem] sm:rounded-[4rem] md:rounded-[6rem] border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-1000 group relative overflow-hidden perspective-card">
+          <div className="perspective-inner h-full w-full flex flex-col xl:flex-row gap-10 sm:gap-20 items-center relative z-10">
+            <div className="flex-1 w-full">
+              <div className="flex items-center gap-4 sm:gap-5 mb-6 sm:mb-10">
+                <div className="w-12 h-12 sm:w-20 sm:h-20 bg-emerald-500/10 rounded-2xl sm:rounded-3xl flex items-center justify-center border border-emerald-500/20">
+                  <MessageCircle className="w-6 h-6 sm:w-10 sm:h-10 text-emerald-400" />
+                </div>
+                <div>
+                  <span className="text-[8px] sm:text-[10px] font-mono text-emerald-500 tracking-[0.2em] sm:tracking-[0.4em] uppercase">{t.project_status}</span>
+                  <h3 className="text-2xl sm:text-4xl md:text-7xl font-black tracking-tighter group-hover:text-emerald-400 transition-colors uppercase leading-tight">Bot Zalo Python</h3>
+                </div>
+              </div>
+              
+              <p className="text-zinc-500 text-base sm:text-xl md:text-3xl leading-relaxed mb-8 sm:mb-16 font-light" dangerouslySetInnerHTML={{ __html: t.project_desc }} />
+              
+              <div className="flex flex-wrap gap-2 sm:gap-5 mb-8 sm:mb-16">
+                {['PYTHON 3.12', 'ZALO SDK', 'REDIS', 'DOCKER'].map(tech => (
+                  <span key={tech} className="px-4 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/5 text-[8px] sm:text-[10px] font-mono text-zinc-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all cursor-default">{tech}</span>
+                ))}
+              </div>
+              
+              <a href="javascript:void(0)" className="magnetic group/link inline-flex items-center gap-3 sm:gap-5 text-lg sm:text-2xl font-black uppercase tracking-tighter hover:text-emerald-400 transition-all">
+                {t.project_link} <ArrowUpRight className="w-6 h-6 sm:w-10 sm:h-10 group-hover/link:translate-x-3 group-hover/link:-translate-y-3 transition-transform duration-500" />
+              </a>
+            </div>
+            
+            <div className="w-full xl:w-1/2 aspect-video rounded-[3rem] md:rounded-[5rem] overflow-hidden glass border-white/5 relative group-hover:shadow-[0_0_100px_-20px_rgba(16,185,129,0.2)] transition-all duration-1000">
+              <img src="https://picsum.photos/seed/zalo-bot-2026/1400/900" alt="Zalo Bot 2026" className="project-image w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-all duration-1000 scale-110 group-hover:scale-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#030303] to-transparent opacity-80"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" className="py-20 sm:py-40 px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-16 sm:mb-32 gsap-reveal">
+          <h2 className="text-4xl sm:text-6xl md:text-9xl font-black mb-6 sm:mb-10 tracking-tighter uppercase" dangerouslySetInnerHTML={{ __html: t.skills_title }} />
+          <p className="text-zinc-600 max-w-2xl mx-auto text-[10px] sm:text-sm font-mono tracking-[0.3em] sm:tracking-[0.5em] uppercase">{t.skills_subtitle}</p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
+          {[
+            { icon: Code2, color: 'emerald', title: t.skill_1_title, desc: t.skill_1_desc },
+            { icon: Layers, color: 'blue', title: t.skill_2_title, desc: t.skill_2_desc },
+            { icon: Database, color: 'purple', title: t.skill_3_title, desc: t.skill_3_desc },
+          ].map((skill, idx) => (
+            <div key={idx} className={`gsap-reveal glass p-8 sm:p-12 rounded-[2.5rem] sm:rounded-[4rem] hover:bg-${skill.color}-500/5 transition-all duration-700 group border-white/5 relative overflow-hidden`}>
+              <div className={`absolute -right-10 -bottom-10 w-40 h-40 bg-${skill.color}-500/5 blur-[60px] group-hover:bg-${skill.color}-500/10 transition-all`}></div>
+              <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-${skill.color}-500/10 flex items-center justify-center mb-6 sm:mb-10 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500`}>
+                <skill.icon className={`w-8 h-8 sm:w-10 sm:h-10 text-${skill.color}-400`} />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black mb-4 sm:mb-6 uppercase tracking-tight">{skill.title}</h3>
+              <p className="text-zinc-500 leading-relaxed text-base sm:text-lg font-light">{skill.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="contact" className="py-20 sm:py-40 px-6 max-w-7xl mx-auto">
+        <div className="gsap-reveal glass p-8 sm:p-12 md:p-32 rounded-[2.5rem] sm:rounded-[4rem] md:rounded-[8rem] relative overflow-hidden border-white/5">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/5 blur-[200px] -mr-80 -mt-80 animate-pulse"></div>
+          <div className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-12 sm:gap-24">
+            <div className="max-w-3xl text-center xl:text-left">
+              <h2 className="text-4xl sm:text-6xl md:text-[10rem] font-black mb-6 sm:mb-10 tracking-tighter uppercase leading-tight sm:leading-[0.8]" dangerouslySetInnerHTML={{ __html: t.contact_title }} />
+              <p className="text-zinc-500 text-base sm:text-lg md:text-3xl mb-8 sm:mb-16 font-light">{t.contact_desc}</p>
+              <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 justify-center xl:justify-start">
+                <div className="flex items-center gap-3 sm:gap-5 text-zinc-400 text-xs sm:text-xl">
+                  <Mail className="w-5 h-5 sm:w-10 sm:h-10 text-emerald-400" />
+                  <span className="font-mono">duong.traqui@2026.dev</span>
+                </div>
+                <div className="flex items-center gap-3 sm:gap-5 text-zinc-400 text-xs sm:text-xl">
+                  <Github className="w-5 h-5 sm:w-10 sm:h-10 text-emerald-400" />
+                  <span className="font-mono">github.com/traquiduong</span>
+                </div>
+              </div>
+            </div>
+            <a href="mailto:duong.traqui@2026.dev" className="magnetic w-full md:w-auto px-10 sm:px-20 py-6 sm:py-10 bg-white text-black font-black rounded-2xl sm:rounded-[3rem] text-base sm:text-2xl uppercase tracking-[0.1em] sm:tracking-[0.2em] hover:bg-emerald-500 transition-all hover:scale-105 glow-emerald text-center">
+              {t.contact_cta}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="py-32 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-10 flex flex-col md:flex-row justify-between items-center gap-12">
+          <p className="text-zinc-600 font-mono text-[10px] md:text-xs uppercase tracking-[0.6em]">{t.footer_copy}</p>
+          <div className="flex gap-10">
+            <a href="javascript:void(0)" className="text-zinc-600 hover:text-emerald-400 transition-all hover:-translate-y-2"><Facebook className="w-7 h-7" /></a>
+            <a href="javascript:void(0)" className="text-zinc-600 hover:text-emerald-400 transition-all hover:-translate-y-2"><Instagram className="w-7 h-7" /></a>
+            <a href="javascript:void(0)" className="text-zinc-600 hover:text-emerald-400 transition-all hover:-translate-y-2"><Linkedin className="w-7 h-7" /></a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
